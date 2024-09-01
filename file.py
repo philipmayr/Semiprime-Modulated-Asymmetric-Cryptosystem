@@ -3,6 +3,17 @@ This program is an implementation of the RSA encryption algorithm.
 
 '''
 
+def find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent):
+    modular_multiplicative_inverse = None
+    k = 0
+
+    while(modular_multiplicative_inverse == None or modular_multiplicative_inverse % 1 != 0):
+        modular_multiplicative_inverse = (1 + (k * phi_of_modulus)) / public_exponent
+        k += 1
+        
+    return modular_multiplicative_inverse
+    
+
 def exponentiate(base, index):
     power = base
     
@@ -63,7 +74,7 @@ def main():
     phi_of_modulus = (p - 1) * (q - 1)
     
     public_exponent = 5
-    private_exponent = 2873
+    private_exponent = find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent)
     
     public_key = [public_exponent, modulus]
     private_key = [private_exponent, modulus]
