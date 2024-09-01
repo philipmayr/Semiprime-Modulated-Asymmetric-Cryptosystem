@@ -3,8 +3,6 @@ This program is an implementation of the RSA encryption algorithm.
 
 '''
 
-from Crypto.Util import number
-
 
 def find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent):
     k = 0
@@ -68,13 +66,9 @@ def decode(encoded_text):
 
 
 def main():
-    bit_length = 8
-
     # p, q: two unlike prime numbers
-    p = number.getPrime(bit_length)
-    q = number.getPrime(bit_length)
-
-    print(p)
+    p = 7
+    q = 19
     
     modulus = p * q
     
