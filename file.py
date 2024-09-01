@@ -74,7 +74,8 @@ def main():
     # φ(modulus)
     phi_of_modulus = (p - 1) * (q - 1)
     
-    public_exponent = 5
+    # e = 2¹⁶ + 1 = 65537
+    public_exponent = 65537
     private_exponent = find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent)
     
     public_key = [public_exponent, modulus]
