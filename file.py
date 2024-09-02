@@ -103,6 +103,8 @@ def main():
 
     # message must be greater than or equal to zero and less than modulus
     message = 37
+    if message < 0 or message >= modulus:
+        raise ValueError("Message is not greater than or equal to zero and less than modulus.")
     
     cipher = encipher(message, public_key)
     message = decipher(cipher, private_key)
