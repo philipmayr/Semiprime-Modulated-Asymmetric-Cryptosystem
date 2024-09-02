@@ -89,11 +89,11 @@ def encrypt(plain_text, public_key):
         message = int(plain_text[-1])
         cipher = encipher(message, public_key)
         cipher_text.append(str(cipher))
-        progress_bar(initial_length - current_length, initial_length)
+        print_progress(initial_length - current_length, initial_length)
         plain_text.pop(-1)
         current_length = len(plain_text)
         
-    progress_bar(initial_length, initial_length)
+    print_progress(initial_length)
 
     return cipher_text
         
@@ -109,7 +109,7 @@ def decrypt(cipher_text, private_key):
     return plain_text
 
 
-def progress_bar(current, total):
+def print_progress(current, total=current):
     fraction = (current / total)
     percentage = int(fraction * 100)
     
