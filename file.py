@@ -1,5 +1,5 @@
 '''
-This program is an implementation of the RSA encryption algorithm.
+This program implements the RSA encryption algorithm.
 
 '''
 
@@ -74,7 +74,29 @@ def decode(encoded_text):
         encoded_text.pop(-1)
         
     return decoded_text
+    
+    
+def encrypt(plain_text, public_key):
+    cipher_text = []    
+    
+    while (len(plain_text) > 0):
+        message = int(plain_text[-1])
+        cipher_text.append(str(encipher(message, public_key)))
+        plain_text.pop(-1)
+        
+    return cipher_text
+        
 
+def decrypt(cipher_text, private_key):
+    plain_text = []
+    
+    while (len(cipher_text) > 0):
+        cipher = int(cipher_text[-1])
+        plain_text.append(str(decipher(cipher, private_key)))
+        cipher_text.pop(-1)
+        
+    return plain_text
+        
 
 def main():
     # unlike prime numbers p, q
@@ -102,23 +124,40 @@ def main():
     private_key = [private_exponent, modulus]
 
     # message must be greater than or equal to zero and less than modulus
-    message = 37
+    message = int(input("Enter integer message → "))
     if message < 0 or message >= modulus:
-        raise ValueError("Message is not greater than or equal to zero and less than modulus.")
+        raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
+        
+    print('')
     
     cipher = encipher(message, public_key)
     message = decipher(cipher, private_key)
     
-    print(message)
-    print(cipher)
-    print(message)
+    print("Enciphered message → " + str(cipher))
+    print("Deciphered message → " + str(message))
     
-    message = "In the beginning, God created the heavens and the earth."
+    print('')
+    
+    # message = "«In the beginning, God created the heavens and the earth.»"
+    message = input("Enter text message → ")
+
+    print('')
     
     encoded_text = encode(message)
-    print(''.join(encoded_text))
-    decoded_text = decode(encoded_text)
-    print(''.join(decoded_text))
+    print("Encoded message → " + ''.join(encoded_text))
+    
+    print('')
+    
+    encrypted_text = encrypt(encoded_text, public_key)
+    print("Encrypted message → " + ''.join(encrypted_text))
+    
+    decrypted_text = decrypt(encrypted_text, private_key)
+    print("Decrypted message → " + ''.join(decrypted_text))
+    
+    print('')
+    
+    decoded_text = decode(decrypted_text)
+    print("Decoded message → " + ''.join(decoded_text))
 
 
 main()
