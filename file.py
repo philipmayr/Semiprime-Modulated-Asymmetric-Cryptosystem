@@ -1,3 +1,4 @@
+
 '''
 This program implements the RSA encryption algorithm.
 
@@ -92,6 +93,8 @@ def encrypt(plain_text, public_key):
         plain_text.pop(-1)
         current_length = len(plain_text)
         
+    progress_bar(initial_length, initial_length)
+
     return cipher_text
         
 
@@ -106,12 +109,16 @@ def decrypt(cipher_text, private_key):
     return plain_text
 
 
-def progress_bar(current, total, bar_length=20):
+def progress_bar(current, total):
     fraction = (current / total)
+    percentage = int(fraction * 100)
+    
+    status_message = "Encrypting message... " + str(percentage) + "% complete."
 
-    ending = '\n' if current == total else '\r'
-
-    print("Encrypting message... " + str(int(fraction * 100)) + '%', end=ending)
+    if current == total:
+        print('\r' + status_message, end='\n\n')
+    else:
+        print(status_message, end='\r')
         
 
 def main():
