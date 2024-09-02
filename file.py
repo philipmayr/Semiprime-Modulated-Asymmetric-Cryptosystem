@@ -93,7 +93,7 @@ def encrypt(plain_text, public_key):
         plain_text.pop(-1)
         current_length = len(plain_text)
         
-    print_progress(initial_length)
+    print_progress(initial_length, initial_length)
 
     return cipher_text
         
@@ -109,7 +109,7 @@ def decrypt(cipher_text, private_key):
     return plain_text
 
 
-def print_progress(current, total=current):
+def print_progress(current, total):
     fraction = (current / total)
     percentage = int(fraction * 100)
     
