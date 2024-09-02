@@ -37,20 +37,20 @@ def exponentiate(base, index):
     return power
 
 
-def encipher(plain_text, public_key):
+def encipher(message, public_key):
     public_exponent, modulus = public_key
     
-    cipher_text = exponentiate(plain_text, public_exponent) % modulus
+    cipher = exponentiate(message, public_exponent) % modulus
     
-    return cipher_text
+    return cipher
     
     
-def decipher(cipher_text, private_key):
+def decipher(cipher, private_key):
     private_exponent, modulus = private_key
     
-    plain_text = exponentiate(cipher_text, private_exponent) % modulus
+    message = exponentiate(cipher, private_exponent) % modulus
     
-    return plain_text
+    return message
 
 
 def encode(plain_text):
@@ -100,15 +100,16 @@ def main():
     
     public_key = [public_exponent, modulus]
     private_key = [private_exponent, modulus]
+
+    # message must be greater than or equal to zero and less than modulus
+    message = 37
     
-    plain_text = 37
+    cipher = encipher(message, public_key)
+    message = decipher(cipher, private_key)
     
-    enciphered_text = encipher(plain_text, public_key)
-    deciphered_text = decipher(enciphered_text, private_key)
-    
-    print(plain_text)
-    print(enciphered_text)
-    print(deciphered_text)
+    print(message)
+    print(cipher)
+    print(message)
     
     message = "In the beginning, God created the heavens and the earth."
     
