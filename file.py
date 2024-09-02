@@ -4,6 +4,17 @@ This program is an implementation of the RSA encryption algorithm.
 '''
 
 
+def find_greatest_common_divisor(a, b):
+    if b == 0:
+        return a
+    else:
+        return find_greatest_common_divisor(b, a % b)
+
+
+def check_coprimality(a, b):
+    return find_greatest_common_divisor(a, b) == 1
+
+
 def find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent):
     k = 0
     equation = lambda k : (1 + (k * phi_of_modulus)) / (public_exponent)
@@ -66,17 +77,25 @@ def decode(encoded_text):
 
 
 def main():
-    # p, q: two unlike prime numbers
+    # unlike prime numbers p, q
     p = 7
     q = 19
-    
+
+    # n
     modulus = p * q
     
-    # φ(modulus)
+    # φ(modulus) (φ(n))
     phi_of_modulus = (p - 1) * (q - 1)
-    
+
+    # public/decryption exponent (e)
     # e = 2¹⁶ + 1 = 65537
     public_exponent = 65537
+    
+    # e must be coprime to φ(modulus)
+    if check_coprimality(public_exponent, phi_of_modulus) == False:
+        raise ValueError("e is not coprime to φ(modulus).")
+        
+    # private/encryption exponent (d)
     private_exponent = find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent)
     
     public_key = [public_exponent, modulus]
