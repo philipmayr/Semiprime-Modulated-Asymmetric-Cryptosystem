@@ -3,6 +3,8 @@ This program implements the RSA encryption algorithm.
 
 '''
 
+import os
+
 
 def find_greatest_common_divisor(a, b):
     if b == 0:
@@ -78,11 +80,17 @@ def decode(encoded_text):
     
 def encrypt(plain_text, public_key):
     cipher_text = []    
+
+    initial_length = len(plain_text)
+    current_length = initial_length
     
-    while (len(plain_text) > 0):
+    while (current_length > 0):
         message = int(plain_text[-1])
-        cipher_text.append(str(encipher(message, public_key)))
+        cipher = encipher(message, public_key)
+        cipher_text.append(str(cipher))
+        progress_bar(initial_length - current_length, initial_length)
         plain_text.pop(-1)
+        current_length = len(plain_text)
         
     return cipher_text
         
@@ -96,6 +104,14 @@ def decrypt(cipher_text, private_key):
         cipher_text.pop(-1)
         
     return plain_text
+
+
+def progress_bar(current, total, bar_length=20):
+    fraction = (current / total)
+
+    ending = '\n' if current == total else '\r'
+
+    print("Encrypting message... " + str(int(fraction * 100)) + '%', end=ending)
         
 
 def main():
@@ -128,7 +144,7 @@ def main():
     if message < 0 or message >= modulus:
         raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
         
-    print('')
+    print()
     
     cipher = encipher(message, public_key)
     message = decipher(cipher, private_key)
@@ -136,17 +152,17 @@ def main():
     print("Enciphered message → " + str(cipher))
     print("Deciphered message → " + str(message))
     
-    print('')
+    print()
     
     # message = "«In the beginning, God created the heavens and the earth.»"
     message = input("Enter text message → ")
 
-    print('')
+    print()
     
     encoded_text = encode(message)
     print("Encoded message → " + ''.join(encoded_text))
     
-    print('')
+    print()
     
     encrypted_text = encrypt(encoded_text, public_key)
     print("Encrypted message → " + ''.join(encrypted_text))
@@ -154,10 +170,14 @@ def main():
     decrypted_text = decrypt(encrypted_text, private_key)
     print("Decrypted message → " + ''.join(decrypted_text))
     
-    print('')
+    print()
     
     decoded_text = decode(decrypted_text)
     print("Decoded message → " + ''.join(decoded_text))
+
+    print()
+
+    os.system('pause')
 
 
 main()
