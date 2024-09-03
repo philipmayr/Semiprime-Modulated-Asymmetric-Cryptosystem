@@ -4,8 +4,6 @@ This program implements the RSA encryption algorithm.
 
 '''
 
-import os
-
 
 def find_greatest_common_divisor(a, b):
     if b == 0:
@@ -18,7 +16,7 @@ def check_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
 
 
-def find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent):
+def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent):
     k = 0
     equation = lambda k : (1 + (k * phi_of_modulus)) / (public_exponent)
     modular_multiplicative_inverse = equation(k)
@@ -141,7 +139,7 @@ def main():
         raise ValueError("e is not coprime to φ(modulus).")
         
     # private/encryption exponent (d)
-    private_exponent = find_modular_multiplicative_inverse_of_public_exponent(phi_of_modulus, public_exponent)
+    private_exponent = find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent)
     
     public_key = [public_exponent, modulus]
     private_key = [private_exponent, modulus]
@@ -184,7 +182,6 @@ def main():
 
     print()
 
-    os.system('pause')
 
-
-main()
+while (True):
+    main()
