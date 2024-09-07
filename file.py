@@ -120,68 +120,68 @@ def print_progress(current, total):
         
 
 def main():
-    # unlike prime numbers p, q
-    p = 7
-    q = 19
-
-    # n
-    modulus = p * q
+    while(True):
+        # unlike prime numbers p, q
+        p = 7
+        q = 19
     
-    # φ(modulus) (φ(n))
-    phi_of_modulus = (p - 1) * (q - 1)
-
-    # public/decryption exponent (e)
-    # e = 2¹⁶ + 1 = 65537
-    public_exponent = 65537
-    
-    # e must be coprime to φ(modulus)
-    if check_coprimality(public_exponent, phi_of_modulus) == False:
-        raise ValueError("e is not coprime to φ(modulus).")
+        # n
+        modulus = p * q
         
-    # private/encryption exponent (d)
-    private_exponent = find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent)
+        # φ(modulus) (φ(n))
+        phi_of_modulus = (p - 1) * (q - 1)
     
-    public_key = [public_exponent, modulus]
-    private_key = [private_exponent, modulus]
-
-    # message must be greater than or equal to zero and less than modulus
-    message = int(input("Enter integer message → "))
-    if message < 0 or message >= modulus:
-        raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
+        # public/decryption exponent (e)
+        # e = 2¹⁶ + 1 = 65537
+        public_exponent = 65537
         
-    print()
+        # e must be coprime to φ(modulus)
+        if check_coprimality(public_exponent, phi_of_modulus) == False:
+            raise ValueError("e is not coprime to φ(modulus).")
+            
+        # private/encryption exponent (d)
+        private_exponent = find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent)
+        
+        public_key = [public_exponent, modulus]
+        private_key = [private_exponent, modulus]
     
-    cipher = encipher(message, public_key)
-    message = decipher(cipher, private_key)
+        # message must be greater than or equal to zero and less than modulus
+        message = int(input("Enter integer message → "))
+        if message < 0 or message >= modulus:
+            raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
+            
+        print()
+        
+        cipher = encipher(message, public_key)
+        message = decipher(cipher, private_key)
+        
+        print("Enciphered message → " + str(cipher))
+        print("Deciphered message → " + str(message))
+        
+        print()
+        
+        # message = "«In the beginning, God created the heavens and the earth.»"
+        message = input("Enter text message → ")
     
-    print("Enciphered message → " + str(cipher))
-    print("Deciphered message → " + str(message))
+        print()
+        
+        encoded_text = encode(message)
+        print("Encoded message → " + ''.join(encoded_text))
+        
+        print()
+        
+        encrypted_text = encrypt(encoded_text, public_key)
+        print("Encrypted message → " + ''.join(encrypted_text))
+        
+        decrypted_text = decrypt(encrypted_text, private_key)
+        print("Decrypted message → " + ''.join(decrypted_text))
+        
+        print()
+        
+        decoded_text = decode(decrypted_text)
+        print("Decoded message → " + ''.join(decoded_text))
     
-    print()
-    
-    # message = "«In the beginning, God created the heavens and the earth.»"
-    message = input("Enter text message → ")
+        print()
 
-    print()
-    
-    encoded_text = encode(message)
-    print("Encoded message → " + ''.join(encoded_text))
-    
-    print()
-    
-    encrypted_text = encrypt(encoded_text, public_key)
-    print("Encrypted message → " + ''.join(encrypted_text))
-    
-    decrypted_text = decrypt(encrypted_text, private_key)
-    print("Decrypted message → " + ''.join(decrypted_text))
-    
-    print()
-    
-    decoded_text = decode(decrypted_text)
-    print("Decoded message → " + ''.join(decoded_text))
 
-    print()
-
-
-while (True):
-    main()
+main()
