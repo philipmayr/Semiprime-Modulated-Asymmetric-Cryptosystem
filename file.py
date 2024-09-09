@@ -29,13 +29,18 @@ def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_o
     
 
 def exponentiate(base, index):
-    power = base
-    
-    while(index > 1):
-        power *= base
-        index -= 1
+    if index == 0:
+        return 1
+    elif index == 1:
+        return base
+    elif:
+        power = base
         
-    return power
+        while(index > 1):
+            power *= base
+            index -= 1
+            
+        return power
 
 
 def encipher(message, public_key):
@@ -181,7 +186,7 @@ def main():
         decoded_text = decode(decrypted_text)
         print("Decoded message → " + ''.join(decoded_text))
     
-        print()
+        print("\n◇◇◇\n")
 
 
 main()
