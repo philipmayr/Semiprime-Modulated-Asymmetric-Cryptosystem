@@ -5,6 +5,15 @@ This program implements the RSA encryption algorithm.
 '''
 
 
+def convert_decimal_to_binary(decimal_number):
+    binary_number = ''
+    while decimal_number > 0:
+        binary_number += str(decimal_number & 1)
+        decimal_number >>= 1
+        
+    return binary_number
+
+
 def find_greatest_common_divisor(a, b):
     if b == 0:
         return a
@@ -33,7 +42,7 @@ def exponentiate(base, index):
         return 1
     elif index == 1:
         return base
-    elif:
+    else:
         power = base
         
         while(index > 1):
