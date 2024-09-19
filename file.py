@@ -58,7 +58,7 @@ def exponentiate_modularly(base, index, modulus):
     elif index == 1:
         return base
     
-    index_base_two = convert_decimal_to_binary(index)
+    index_base_two = convert_decimal_to_binary(int(index))
     
     power = 1
     dividend = power
@@ -75,13 +75,13 @@ def exponentiate_modularly(base, index, modulus):
             modulo = dividend % modulus
             dividend = modulo
 
-    return power
+    return modulo
 
 
 def encipher(message, public_key):
     public_exponent, modulus = public_key
     
-    cipher = exponentiate(message, public_exponent) % modulus
+    cipher = exponentiate_modularly(message, public_exponent, modulus)
     
     return cipher
     
@@ -89,7 +89,7 @@ def encipher(message, public_key):
 def decipher(cipher, private_key):
     private_exponent, modulus = private_key
     
-    message = exponentiate(cipher, private_exponent) % modulus
+    message = exponentiate_modularly(cipher, private_exponent, modulus)
     
     return message
 
