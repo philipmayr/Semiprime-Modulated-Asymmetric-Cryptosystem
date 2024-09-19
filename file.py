@@ -61,14 +61,20 @@ def exponentiate_modularly(base, index, modulus):
     index_base_two = convert_decimal_to_binary(index)
     
     power = 1
+    dividend = power
 
     for char in index_base_two:
         power *= power
+        dividend *= dividend
+        modulo = dividend % modulus
+        dividend = modulo
+        
         if char == '1':
             power *= base
+            dividend *= base
+            modulo = dividend % modulus
+            dividend = modulo
 
-    modulo = power % modulus
-            
     return power
 
 
