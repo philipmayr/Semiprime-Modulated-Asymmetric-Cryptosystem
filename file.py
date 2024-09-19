@@ -5,6 +5,9 @@ This program implements the RSA encryption algorithm.
 '''
 
 
+import time
+
+
 def convert_decimal_to_binary(decimal_number):
     binary_number = ''
     while decimal_number > 0:
@@ -38,6 +41,8 @@ def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_o
     
 
 def exponentiate(base, index):
+    start = time.time()
+
     if index == 0:
         return 1
     elif index == 1:
@@ -49,7 +54,33 @@ def exponentiate(base, index):
             power *= base
             index -= 1
             
-        return power
+    end = time.time()
+    print(end - start)
+            
+    return power
+        
+        
+def exponentiate_modularly(base, index, modulus):
+    start = time.time()
+
+    if index == 0:
+        return 1
+    elif index == 1:
+        return base
+    
+    index_base_two = convert_decimal_to_binary(index)
+    
+    power = 1
+    
+    for char in index_base_two:
+        power *= power
+        if char == '1':
+            power *= base
+            
+    end = time.time()
+    print(end - start)
+        
+    return power
 
 
 def encipher(message, public_key):
@@ -134,6 +165,11 @@ def print_progress(current, total):
         
 
 def main():
+    exponentiate(8384, 8384)
+    exponentiate_modularly(8384, 8384, 5)
+    
+    print()
+    
     while(True):
         # unlike prime numbers p, q
         p = 7
