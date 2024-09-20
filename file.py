@@ -23,6 +23,51 @@ def find_greatest_common_divisor(a, b):
 
 def check_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
+    
+    
+def check_integrality(n):
+    if n % 1 == 0:
+        return True
+    else:
+        return False
+    
+    
+def check_primality(n):
+    # n - 1 = 2ᵏ ⋅ m
+    
+    n -= 1
+    quotient = n
+    index = 1
+    
+    while True:
+        quotient = n / exponentiate(2, index)
+        if check_integrality(quotient) == False:
+            index -= 1
+            quotient = n / exponentiate(2, index)
+            break
+        else:
+            index += 1
+        
+    k = index
+    m = quotient
+    
+    # 1 < a < n - 1
+    a = 2
+    
+    # bo = aᵐ mod n
+    b = exponentiate(a, m) % (n + 1)
+    
+    if b == 1 or b == -1:
+        return True
+    else:
+        b = exponentiate(b, 2) % (n + 1)
+        if b == 1:
+            return False
+        elif b == -1:
+            return True
+    
+    return quotient
+        
 
 
 def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent):
@@ -161,6 +206,8 @@ def print_progress(current, total):
 
 def main():
     while(True):
+        check_primality(53)
+        
         # unlike prime numbers p, q
         p = 7
         q = 19
