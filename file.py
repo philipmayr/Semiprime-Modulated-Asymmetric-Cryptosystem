@@ -54,7 +54,7 @@ def check_primality(n):
     # 1 < a < n - 1
     a = 2
     
-    # bo = aᵐ mod n
+    # b₀ = aᵐ mod n
     b = exponentiate(a, m) % (n + 1)
     
     if b == 1 or b == -1:
@@ -206,7 +206,7 @@ def print_progress(current, total):
 
 def main():
     while(True):
-        check_primality(53)
+        check_primality(int(input("Enter prime number candidate: ")))
         
         # unlike prime numbers p, q
         p = 7
@@ -247,7 +247,7 @@ def main():
         
         print()
         
-        # message = "«In the beginning, God created the heavens and the earth.»"
+        # message = "«In the beginning, Elohim created the heavens and the earth.»"
         message = input("Enter text message → ")
     
         print()
