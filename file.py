@@ -6,6 +6,14 @@ This program implements the RSA cryptographic algorithm.
 
 import random
 
+from Crypto.Util import number
+
+def generate_prime(bit_length=32):
+    while True:
+        random_bits = random.getrandbits(bit_length)
+        if test_primality(random_bits):
+            return random_bits
+
 
 def convert_decimal_to_binary(decimal_number):
     binary_number = ''
@@ -35,13 +43,20 @@ def test_integrality(n):
     
     
 def test_primality(prime_candidate):
-    if prime_candidate < 3 or prime_candidate % 2 == 0:
-        return false
+    if prime_candidate & 1 or prime_candidate < 3:
+        print("even")
+        return False
 
     '''
+    
     TODO: 
-         test prime candidate for perfect exponentiality:
-         return false if prime candidate is a perfect power
+    
+    1. divide prime candidate by first few hundred pre-generated primes:
+       return false if prime candidate is divides evenly
+       
+    2. test prime candidate for perfect exponentiality:
+       return false if prime candidate is a perfect power
+       
     '''
         
     # n - 1 = 2ᵏ ⋅ m
@@ -79,7 +94,7 @@ def test_primality(prime_candidate):
         elif residue == -1 or (residue - prime_candidate == -1):
             return True
     
-    return quotient
+    return False
         
 
 def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent):
@@ -218,9 +233,12 @@ def print_progress(current, total):
 
 def main():
     while(True):
+        print("Generating primes...")
+        print()
+        
         # unlike prime numbers p, q
-        p = 7
-        q = 19
+        p = number.getPrime(1024)
+        q = number.getPrime(1024)
     
         # n
         modulus = p * q
