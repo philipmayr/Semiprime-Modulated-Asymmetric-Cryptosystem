@@ -128,25 +128,43 @@ def exponentiate_modularly(base, index, modulus):
         return 1
     elif index == 1:
         return base
-    
-    index_base_two = convert_decimal_to_binary(int(index))
-    
-    power = 1
-    dividend = power
-
-    for char in index_base_two:
-        power *= power
-        dividend *= dividend
-        modulo = dividend % modulus
-        dividend = modulo
         
-        if char == '1':
-            power *= base
-            dividend *= base
-            modulo = dividend % modulus
-            dividend = modulo
+    residue = 1
+    
+    base %= modulus
+    
+    if base == 0:
+        return 0
+        
+    index = int(index)
+        
+    while index > 0:
+        if index & 1:
+            residue = (residue * base) % modulus
+            
+        base = (base * base) % modulus
+        index >>= 1
+        
+    return residue
+    
+    # index_base_two = convert_decimal_to_binary(int(index))
+    
+    # power = 1
+    # dividend = power
 
-    return modulo
+    # for char in index_base_two:
+    #     power *= power
+    #     dividend *= dividend
+    #     modulo = dividend % modulus
+    #     dividend = modulo
+        
+    #     if char == '1':
+    #         power *= base
+    #         dividend *= base
+    #         modulo = dividend % modulus
+    #         dividend = modulo
+
+    # return modulo
 
 
 def encipher(message, public_key):
