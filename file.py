@@ -4,6 +4,8 @@ This program implements the RSA cryptographic algorithm.
 
 '''
 
+import random
+
 
 def convert_decimal_to_binary(decimal_number):
     binary_number = ''
@@ -26,49 +28,52 @@ def check_coprimality(a, b):
     
     
 def check_integrality(n):
+    print(n)
     if n % 1 == 0:
         return True
     else:
         return False
     
     
-def check_primality(n):
+def check_primality(prime_candidate):
+    if prime_candidate < 3:
+        return false
+        
     # n - 1 = 2ᵏ ⋅ m
+    # n: prime candidate
+    # k: index
+    # m: quotient
     
-    n -= 1
-    quotient = n
     index = 1
     
     while True:
-        quotient = n / exponentiate(2, index)
-        if check_integrality(quotient) == False:
-            index -= 1
-            quotient = n / exponentiate(2, index)
-            break
-        else:
+        if prime_candidate - 1 % exponentiate(2, index) == 0:
             index += 1
+        else:
+            index -= 1
+            break
         
-    k = index
-    m = quotient
-    
+    quotient = (prime_candidate - 1) / exponentiate(2, index)
+        
     # 1 < a < n - 1
-    a = 2
+    # a: witness
+    witness = random.randint(2, prime_candidate - 2)
     
     # b₀ = aᵐ mod n
-    b = exponentiate(a, m) % (n + 1)
+    # b = residue
+    residue = exponentiate_modularly(witness, quotient, prime_candidate)
     
-    if b == 1 or b == -1:
+    if residue == 1 or residue == -1 or residue == (residue - prime_candidate):
         return True
     else:
-        b = exponentiate(b, 2) % (n + 1)
-        if b == 1:
+        residue = exponentiate_modularly(residue, 2, prime_candidate)
+        if residue == 1:
             return False
-        elif b == -1:
+        elif residue == -1 or (residue - prime_candidate == -1):
             return True
     
     return quotient
         
-
 
 def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent):
     k = 0
@@ -206,8 +211,6 @@ def print_progress(current, total):
 
 def main():
     while(True):
-        check_primality(int(input("Enter prime number candidate: ")))
-        
         # unlike prime numbers p, q
         p = 7
         q = 19
