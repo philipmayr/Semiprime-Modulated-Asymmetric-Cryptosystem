@@ -28,7 +28,6 @@ def check_coprimality(a, b):
     
     
 def check_integrality(n):
-    print(n)
     if n % 1 == 0:
         return True
     else:
@@ -57,10 +56,12 @@ def check_primality(prime_candidate):
         
     # 1 < a < n - 1
     # a: witness
+    
     witness = random.randint(2, prime_candidate - 2)
     
     # b₀ = aᵐ mod n
     # b = residue
+    
     residue = exponentiate_modularly(witness, quotient, prime_candidate)
     
     if residue == 1 or residue == -1 or residue == (residue - prime_candidate):
