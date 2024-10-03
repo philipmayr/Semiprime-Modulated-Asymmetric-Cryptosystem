@@ -23,20 +23,26 @@ def find_greatest_common_divisor(a, b):
         return find_greatest_common_divisor(b, a % b)
 
 
-def check_coprimality(a, b):
+def test_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
     
     
-def check_integrality(n):
+def test_integrality(n):
     if n % 1 == 0:
         return True
     else:
         return False
     
     
-def check_primality(prime_candidate):
-    if prime_candidate < 3:
+def test_primality(prime_candidate):
+    if prime_candidate < 3 or prime_candidate % 2 == 0:
         return false
+
+    '''
+    TODO: 
+         test prime candidate for perfect exponentiality:
+         return false if prime candidate is a perfect power
+    '''
         
     # n - 1 = 2ᵏ ⋅ m
     # n: prime candidate
@@ -227,7 +233,7 @@ def main():
         public_exponent = 65537
         
         # e must be coprime to φ(modulus)
-        if check_coprimality(public_exponent, phi_of_modulus) == False:
+        if test_coprimality(public_exponent, phi_of_modulus) == False:
             raise ValueError("e is not coprime to φ(modulus).")
             
         # private/encryption exponent (d)
