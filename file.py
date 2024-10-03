@@ -6,15 +6,13 @@ This program implements the RSA cryptographic algorithm.
 
 import random
 
-# from Crypto.Util import number
-
-def generate_prime(bit_length=16):
+def generate_prime(bit_length=8):
     while True:
         random_bits = random.getrandbits(bit_length)
         
         # set leading and trailing bits to 1 to make sure prime candidate is large and odd
         bit_mask = (1 << (bit_length - 1)) | 1
-        random_bits = random_bits | bit_mask
+        random_bits |= bit_mask
         
         if test_primality(random_bits):
             return random_bits
@@ -238,9 +236,6 @@ def main():
         print()
         
         # unlike prime numbers p, q
-        # p = number.getPrime(1024)
-        # q = number.getPrime(1024)
-        
         p = generate_prime()
         q = generate_prime()
     
