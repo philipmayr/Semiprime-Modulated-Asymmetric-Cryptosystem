@@ -39,7 +39,7 @@ def test_coprimality(a, b):
     
     
 def test_integrality(n):
-    if n % 1 == 0:
+    if n & 1:
         return True
     else:
         return False
