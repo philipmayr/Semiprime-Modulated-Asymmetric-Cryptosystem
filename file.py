@@ -6,7 +6,8 @@ This program implements the RSA cryptographic algorithm.
 
 import random
 
-def generate_prime(bit_length=8):
+
+def generate_prime(bit_length=16):
     while True:
         random_bits = random.getrandbits(bit_length)
         
@@ -292,7 +293,7 @@ def main():
         
         print()
         
-        # message = "«In the beginning, Elohim created the heavens and the earth.»"
+        # message = "«בראשית ברא אלהים את השמים ואת הארץ»"
         message = input("Enter text message → ")
     
         print()
@@ -304,6 +305,8 @@ def main():
         
         encrypted_text = encrypt(encoded_text, public_key)
         print("Encrypted message → " + ''.join(encrypted_text))
+        
+        print()
         
         decrypted_text = decrypt(encrypted_text, private_key)
         print("Decrypted message → " + ''.join(decrypted_text))
