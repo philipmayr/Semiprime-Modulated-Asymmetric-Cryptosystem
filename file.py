@@ -21,6 +21,7 @@ def generate_prime(bit_length=16):
 
 def convert_decimal_to_binary(decimal_number):
     binary_number = ''
+    
     while decimal_number > 0:
         binary_number = str(decimal_number & 1) + binary_number
         decimal_number >>= 1
