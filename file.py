@@ -11,7 +11,7 @@ def generate_prime(bit_length=16):
     while True:
         random_bits = random.getrandbits(bit_length)
         
-        # set leading and trailing bits to 1 to make sure prime candidate is large and odd
+        # set leading and trailing bits to 1 to make sure prime candidate is both large and odd
         bit_mask = (1 << (bit_length - 1)) | 1
         random_bits |= bit_mask
         
@@ -19,14 +19,14 @@ def generate_prime(bit_length=16):
             return random_bits
 
 
-def convert_decimal_to_binary(decimal_number):
-    binary_number = ''
+# def convert_decimal_to_binary(decimal_number):
+#     binary_number = ''
     
-    while decimal_number > 0:
-        binary_number = str(decimal_number & 1) + binary_number
-        decimal_number >>= 1
+#     while decimal_number > 0:
+#         binary_number = str(decimal_number & 1) + binary_number
+#         decimal_number >>= 1
         
-    return binary_number
+#     return binary_number
 
 
 def find_greatest_common_divisor(a, b):
