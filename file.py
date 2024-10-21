@@ -40,13 +40,6 @@ def test_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
     
     
-def test_integrality(n):
-    if n & 1:
-        return True
-    else:
-        return False
-    
-    
 def test_primality(prime_candidate):
     '''
     
