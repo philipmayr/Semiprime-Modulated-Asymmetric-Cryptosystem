@@ -254,12 +254,18 @@ def main():
     
         # n
         modulus = p * q
+
+        # φ(p)
+        phi_of_p = p - 1
+        # φ(q)
+        phi_of_q = q - 1
         
         # φ(modulus) (φ(n))
-        phi_of_modulus = (p - 1) * (q - 1)
+        phi_of_modulus = phi_of_p * phi_of_q
     
         # public/decryption exponent (e)
         # e = 2¹⁶ + 1 = 65537
+        # e = 10000000000000001
         public_exponent = 65537
         
         # e must be coprime to φ(modulus)
