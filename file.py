@@ -1,6 +1,6 @@
 
 '''
-This program implements the RSA cryptographic algorithm.
+This program implements the RSA cryptographic scheme.
 
 '''
 
