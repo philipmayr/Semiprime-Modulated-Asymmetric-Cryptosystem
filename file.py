@@ -46,7 +46,7 @@ def test_primality(prime_candidate):
     TODO: 
     
     1. divide prime candidate by first few hundred pre-generated primes:
-       return false if prime candidate is divides evenly
+       return false if prime candidate divides evenly
        
     2. test prime candidate for perfect exponentiality:
        return false if prime candidate is a perfect power
@@ -96,7 +96,7 @@ def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_o
     equation = lambda k : (1 + (k * phi_of_modulus)) / (public_exponent)
     modular_multiplicative_inverse = equation(k)
 
-    while(modular_multiplicative_inverse % 1 != 0):
+    while (modular_multiplicative_inverse % 1 != 0):
         modular_multiplicative_inverse = equation(k)
         k += 1
         
@@ -111,7 +111,7 @@ def exponentiate(base, index):
     else:
         power = base
         
-        while(index > 1):
+        while (index > 1):
             power *= base
             index -= 1
             
@@ -181,7 +181,7 @@ def decipher(cipher, private_key):
 def encode(plain_text):
     encoded_text = []
 
-    while(len(plain_text) > 0):
+    while (len(plain_text) > 0):
         character = plain_text[-1]
         encoded_character = ord(character)
         encoded_text.append(str(encoded_character))
@@ -193,7 +193,7 @@ def encode(plain_text):
 def decode(encoded_text):
     decoded_text = []
     
-    while(len(encoded_text) > 0):
+    while (len(encoded_text) > 0):
         character = chr(int(encoded_text[-1]))
         decoded_text.append(character)
         encoded_text.pop(-1)
@@ -244,7 +244,7 @@ def print_progress(current, total):
         
 
 def main():
-    while(True):
+    while (True):
         print("Generating primes...")
         print()
         
