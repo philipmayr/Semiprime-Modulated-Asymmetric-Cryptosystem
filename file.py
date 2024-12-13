@@ -17,17 +17,7 @@ def generate_prime(bit_length=16):
         
         if test_primality(random_bits):
             return random_bits
-
-
-# def convert_decimal_to_binary(decimal_number):
-#     binary_number = ''
-    
-#     while decimal_number > 0:
-#         binary_number = str(decimal_number & 1) + binary_number
-#         decimal_number >>= 1
-        
-#     return binary_number
-
+            
 
 def find_greatest_common_divisor(a, b):
     if b == 0:
@@ -141,25 +131,6 @@ def exponentiate_modularly(base, index, modulus):
         index >>= 1
         
     return residue
-    
-    # index_base_two = convert_decimal_to_binary(int(index))
-    
-    # power = 1
-    # dividend = power
-
-    # for char in index_base_two:
-    #     power *= power
-    #     dividend *= dividend
-    #     modulo = dividend % modulus
-    #     dividend = modulo
-        
-    #     if char == '1':
-    #         power *= base
-    #         dividend *= base
-    #         modulo = dividend % modulus
-    #         dividend = modulo
-
-    # return modulo
 
 
 def encipher(message, public_key):
