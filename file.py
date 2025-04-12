@@ -81,9 +81,9 @@ def test_primality(prime_candidate):
     return False
         
 
-def find_modular_multiplicative_inverse_of_public_decryption_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_decryption_exponent):
+def find_modular_multiplicative_inverse(multiplicand, modulus):
     k = 0
-    equation = lambda k : (1 + (k * phi_of_modulus)) / (public_decryption_exponent)
+    equation = lambda k : (1 + (k * modulus)) / (multiplicand)
     modular_multiplicative_inverse = equation(k)
 
     while (modular_multiplicative_inverse % 1 != 0):
@@ -246,7 +246,7 @@ def main():
             raise ValueError("e is not coprime to φ(modulus).")
             
         # private encryption exponent (d)
-        private_encryption_exponent = find_modular_multiplicative_inverse_of_public_decryption_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_decryption_exponent)
+        private_encryption_exponent = find_modular_multiplicative_inverse(public_decryption_exponent, phi_of_modulus)
         
         public_key = [public_decryption_exponent, modulus]
         private_key = [private_encryption_exponent, modulus]
