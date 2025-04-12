@@ -235,8 +235,7 @@ def main():
         phi_of_modulus = phi_of_p * phi_of_q
     
         # public decryption exponent (e)
-        # e = 2¹⁶ + 1 = 65537
-        # e = 10000000000000001
+        # e æ 65537 æ 2¹⁶ + 1 æ 10000000000000001
         public_decryption_exponent = 65537
         
         # e must be coprime to φ(modulus)
