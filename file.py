@@ -142,9 +142,17 @@ def encipher(message, public_key):
     
     
 def decipher(cipher, private_key):
-    private_encryption_exponent, modulus = private_key
+    private_encryption_exponent, modulus, private_encryption_exponent_modulo_phi_of_p, private_encryption_exponent_modulo_phi_of_q, p, q, modular_multiplicative_inverse_of_q_modulo_p = private_key
     
-    message = exponentiate_modularly(cipher, private_encryption_exponent, modulus)
+    # Optimization with Chinese Remainder Theorem (CRT)
+    first_message = exponentiate_modularly(cipher, private_encryption_exponent_modulo_phi_of_p, p)
+    second_message = exponentiate_modularly(cipher, private_encryption_exponent_modulo_phi_of_q, q)
+    
+    h = int((modular_multiplicative_inverse_of_q_modulo_p * (first_message - second_message))) % p
+    
+    message = second_message + (h * q)
+    
+    # message = exponentiate_modularly(cipher, private_encryption_exponent, modulus)
     
     return message
 
@@ -248,8 +256,13 @@ def main():
         # private encryption exponent (d)
         private_encryption_exponent = find_modular_multiplicative_inverse(public_decryption_exponent, phi_of_modulus)
         
+        private_encryption_exponent_modulo_phi_of_p = private_encryption_exponent % phi_of_p
+        private_encryption_exponent_modulo_phi_of_q = private_encryption_exponent % phi_of_q
+        
+        modular_multiplicative_inverse_of_q_modulo_p = find_modular_multiplicative_inverse(q, p)
+        
         public_key = [public_decryption_exponent, modulus]
-        private_key = [private_encryption_exponent, modulus]
+        private_key = [private_encryption_exponent, modulus, private_encryption_exponent_modulo_phi_of_p, private_encryption_exponent_modulo_phi_of_q, p, q, modular_multiplicative_inverse_of_q_modulo_p]
     
         # message must be greater than or equal to zero and less than modulus
         message = int(input("Enter integer message → "))
