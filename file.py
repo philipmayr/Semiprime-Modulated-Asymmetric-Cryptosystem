@@ -223,15 +223,19 @@ def main():
         p = generate_prime()
         q = generate_prime()
     
-        # n
+        # modulus (n)
         modulus = p * q
 
-        # φ(p)
+        # Euler's totient function φ(n) gives the count of numbers coprime to n,
+        # that is, the count of numbers sharing no factor but 1 with n.
+        # For every prime n, the count of numbers coprime to n is always n - 1,
+        # since every number less than a prime n shares no factor but 1 with n.
         phi_of_p = p - 1
-        # φ(q)
         phi_of_q = q - 1
         
-        # φ(modulus) (φ(n))
+        # Euler's totient function φ(n) holds the multiplicative property:
+        # if a and b are coprime, that is, sharing no common factor but 1,
+        # then ϕ(a ⋅ b) = ϕ(a) ⋅ ϕ(b).
         phi_of_modulus = phi_of_p * phi_of_q
     
         # public decryption exponent (e)
