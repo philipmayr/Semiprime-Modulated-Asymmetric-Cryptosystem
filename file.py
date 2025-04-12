@@ -231,7 +231,7 @@ def main():
         p = generate_prime()
         q = generate_prime()
     
-        # modulus (n)
+        # public modulus (n)
         modulus = p * q
 
         # Euler's totient function φ(n) gives the count of numbers coprime to n,
