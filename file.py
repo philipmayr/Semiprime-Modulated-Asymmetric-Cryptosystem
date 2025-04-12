@@ -11,7 +11,7 @@ def generate_prime(bit_length=16):
     while True:
         random_bits = random.getrandbits(bit_length)
         
-        # set leading and trailing bits to 1 to make sure prime candidate is both large and odd
+        # turn on leading and trailing bits of mask to make sure prime candidate is both significantly large and odd
         bit_mask = (1 << (bit_length - 1)) | 1
         random_bits |= bit_mask
         
@@ -81,9 +81,9 @@ def test_primality(prime_candidate):
     return False
         
 
-def find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent):
+def find_modular_multiplicative_inverse_of_public_decryption_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_decryption_exponent):
     k = 0
-    equation = lambda k : (1 + (k * phi_of_modulus)) / (public_exponent)
+    equation = lambda k : (1 + (k * phi_of_modulus)) / (public_decryption_exponent)
     modular_multiplicative_inverse = equation(k)
 
     while (modular_multiplicative_inverse % 1 != 0):
@@ -134,17 +134,17 @@ def exponentiate_modularly(base, index, modulus):
 
 
 def encipher(message, public_key):
-    public_exponent, modulus = public_key
+    public_decryption_exponent, modulus = public_key
     
-    cipher = exponentiate_modularly(message, public_exponent, modulus)
+    cipher = exponentiate_modularly(message, public_decryption_exponent, modulus)
     
     return cipher
     
     
 def decipher(cipher, private_key):
-    private_exponent, modulus = private_key
+    private_encryption_exponent, modulus = private_key
     
-    message = exponentiate_modularly(cipher, private_exponent, modulus)
+    message = exponentiate_modularly(cipher, private_encryption_exponent, modulus)
     
     return message
 
@@ -219,7 +219,7 @@ def main():
         print("Generating primes...")
         print()
         
-        # unlike prime numbers p, q
+        # generate pair of unlike prime numbers (p, q)
         p = generate_prime()
         q = generate_prime()
     
@@ -234,20 +234,20 @@ def main():
         # φ(modulus) (φ(n))
         phi_of_modulus = phi_of_p * phi_of_q
     
-        # public/decryption exponent (e)
+        # set public decryption exponent (e)
         # e = 2¹⁶ + 1 = 65537
         # e = 10000000000000001
-        public_exponent = 65537
+        public_decryption_exponent = 65537
         
         # e must be coprime to φ(modulus)
-        if test_coprimality(public_exponent, phi_of_modulus) == False:
+        if test_coprimality(public_decryption_exponent, phi_of_modulus) == False:
             raise ValueError("e is not coprime to φ(modulus).")
             
-        # private/encryption exponent (d)
-        private_exponent = find_modular_multiplicative_inverse_of_public_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_exponent)
+        # set private encryption exponent (d)
+        private_encryption_exponent = find_modular_multiplicative_inverse_of_public_decryption_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_decryption_exponent)
         
-        public_key = [public_exponent, modulus]
-        private_key = [private_exponent, modulus]
+        public_key = [public_decryption_exponent, modulus]
+        private_key = [private_encryption_exponent, modulus]
     
         # message must be greater than or equal to zero and less than modulus
         message = int(input("Enter integer message → "))
