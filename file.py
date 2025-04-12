@@ -4,12 +4,12 @@ This program implements the RSA cryptosystem.
 
 '''
 
-import random
+import random, secrets
 
 
 def generate_prime(bit_length=16):
     while True:
-        random_bits = random.getrandbits(bit_length)
+        random_bits = secrets.randbits(bit_length)
         
         # turn on leading and trailing bits of mask to make sure prime candidate is both significantly large and odd
         bit_mask = (1 << (bit_length - 1)) | 1
@@ -219,7 +219,7 @@ def main():
         print("Generating primes...")
         print()
         
-        # generate pair of unlike prime numbers (p, q)
+        # generate unlike prime numbers p, q
         p = generate_prime()
         q = generate_prime()
     
@@ -234,7 +234,7 @@ def main():
         # φ(modulus) (φ(n))
         phi_of_modulus = phi_of_p * phi_of_q
     
-        # set public decryption exponent (e)
+        # public decryption exponent (e)
         # e = 2¹⁶ + 1 = 65537
         # e = 10000000000000001
         public_decryption_exponent = 65537
@@ -243,7 +243,7 @@ def main():
         if test_coprimality(public_decryption_exponent, phi_of_modulus) == False:
             raise ValueError("e is not coprime to φ(modulus).")
             
-        # set private encryption exponent (d)
+        # private encryption exponent (d)
         private_encryption_exponent = find_modular_multiplicative_inverse_of_public_decryption_exponent_with_respect_to_phi_of_modulus(phi_of_modulus, public_decryption_exponent)
         
         public_key = [public_decryption_exponent, modulus]
