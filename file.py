@@ -234,8 +234,7 @@ def main():
         phi_of_q = q - 1
         
         # Euler's totient function φ(n) holds the multiplicative property:
-        # if a and b are coprime, that is, sharing no common factor but 1,
-        # then ϕ(a ⋅ b) = ϕ(a) ⋅ ϕ(b).
+        # if a and b are coprime, then ϕ(a ⋅ b) = ϕ(a) ⋅ ϕ(b).
         phi_of_modulus = phi_of_p * phi_of_q
     
         # public decryption exponent (e)
