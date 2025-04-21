@@ -1,6 +1,6 @@
 
 '''
-This program implements the 32-bit RSA cryptosystem.
+This program implements an unpadded 32-bit RSA cryptosystem.
 
 '''
 
