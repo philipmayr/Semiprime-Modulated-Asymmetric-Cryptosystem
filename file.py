@@ -18,14 +18,14 @@ def generate_prime(bit_length=16):
         if test_primality(random_bits):
             return random_bits
             
-
+            
 def find_greatest_common_divisor(a, b):
     if b == 0:
         return a
     else:
         return find_greatest_common_divisor(b, a % b)
-
-
+        
+        
 def test_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
     
@@ -33,7 +33,7 @@ def test_coprimality(a, b):
 def test_primality(prime_candidate):
     '''
     
-    TODO: 
+    TODO:
     
     1. divide prime candidate by first few hundred pre-generated primes:
        return false if prime candidate divides evenly
@@ -42,7 +42,7 @@ def test_primality(prime_candidate):
        return false if prime candidate is a perfect power
        
     '''
-        
+    
     # n - 1 = 2ᵏ ⋅ m
     # n: prime candidate
     # k: index
@@ -56,9 +56,9 @@ def test_primality(prime_candidate):
         else:
             index -= 1
             break
-        
+            
     quotient = (prime_candidate - 1) / exponentiate(2, index)
-        
+    
     # 1 < a < n - 1
     # a: witness
     
@@ -77,22 +77,22 @@ def test_primality(prime_candidate):
             return False
         elif residue == -1 or (residue - prime_candidate == -1):
             return True
-    
+            
     return False
-        
-
+    
+    
 def find_modular_multiplicative_inverse(multiplicand, modulus):
     k = 0
     equation = lambda k : (1 + (k * modulus)) / (multiplicand)
     modular_multiplicative_inverse = equation(k)
-
+    
     while (modular_multiplicative_inverse % 1 != 0):
         modular_multiplicative_inverse = equation(k)
         k += 1
         
     return modular_multiplicative_inverse
     
-
+    
 def exponentiate(base, index):
     if index == 0:
         return 1
@@ -106,8 +106,8 @@ def exponentiate(base, index):
             index -= 1
             
     return power
-        
-        
+    
+    
 def exponentiate_modularly(base, index, modulus):
     if index == 0:
         return 1
@@ -122,7 +122,7 @@ def exponentiate_modularly(base, index, modulus):
         return 0
         
     index = int(index)
-        
+    
     while index > 0:
         if index & 1:
             residue = (residue * base) % modulus
@@ -131,8 +131,8 @@ def exponentiate_modularly(base, index, modulus):
         index >>= 1
         
     return residue
-
-
+    
+    
 def encipher(message, public_key):
     public_decryption_exponent, modulus = public_key
     
@@ -155,11 +155,11 @@ def decipher(cipher, private_key):
     # message = exponentiate_modularly(cipher, private_encryption_exponent, modulus)
     
     return message
-
-
+    
+    
 def encode(plain_text):
     encoded_text = []
-
+    
     while (len(plain_text) > 0):
         character = plain_text[-1]
         encoded_character = ord(character)
@@ -167,8 +167,8 @@ def encode(plain_text):
         plain_text = plain_text[:-1]
         
     return encoded_text
-
-
+    
+    
 def decode(encoded_text):
     decoded_text = []
     
@@ -181,8 +181,8 @@ def decode(encoded_text):
     
     
 def encrypt(plain_text, public_key):
-    cipher_text = []    
-
+    cipher_text = []
+    
     initial_length = len(plain_text)
     current_length = initial_length
     
@@ -195,9 +195,9 @@ def encrypt(plain_text, public_key):
         current_length = len(plain_text)
         
     print_progress(initial_length, initial_length)
-
+    
     return cipher_text
-        
+
 
 def decrypt(cipher_text, private_key):
     plain_text = []
@@ -215,7 +215,7 @@ def print_progress(current, total):
     percentage = int(fraction * 100)
     
     status_message = "Encrypting message... " + str(percentage) + "% complete."
-
+    
     if current == total:
         print('\r' + status_message, end='\n\n')
     else:
@@ -230,10 +230,10 @@ def main():
         # generate unlike prime numbers p, q
         p = generate_prime()
         q = generate_prime()
-    
+        
         # public modulus (n)
         modulus = p * q
-
+        
         # Euler's totient function φ(n) gives the count of numbers coprime to n,
         # that is, the count of numbers sharing no factor but 1 with n.
         # For every prime n, the count of numbers coprime to n is always n - 1,
@@ -244,7 +244,7 @@ def main():
         # Euler's totient function φ(n) holds the multiplicative property:
         # if a and b are coprime, then ϕ(a ⋅ b) = ϕ(a) ⋅ ϕ(b).
         phi_of_modulus = phi_of_p * phi_of_q
-    
+        
         # public decryption exponent (e)
         # e æ 65537 æ 2¹⁶ + 1 æ 10000000000000001
         public_decryption_exponent = 65537
@@ -263,7 +263,7 @@ def main():
         
         public_key = [public_decryption_exponent, modulus]
         private_key = [private_encryption_exponent, modulus, private_encryption_exponent_modulo_phi_of_p, private_encryption_exponent_modulo_phi_of_q, p, q, modular_multiplicative_inverse_of_q_modulo_p]
-    
+        
         # message must be greater than or equal to zero and less than modulus
         message = int(input("Enter integer message → "))
         if message < 0 or message >= modulus:
@@ -281,7 +281,7 @@ def main():
         
         # message = "«בראשית ברא אלהים את השמים ואת הארץ»"
         message = input("Enter text message → ")
-    
+        
         print()
         
         encoded_text = encode(message)
@@ -301,7 +301,7 @@ def main():
         
         decoded_text = decode(decrypted_text)
         print("Decoded message → " + ''.join(decoded_text))
-    
+        
         print("\n◇◇◇\n")
 
 
