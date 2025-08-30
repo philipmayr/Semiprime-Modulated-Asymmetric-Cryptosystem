@@ -57,7 +57,7 @@ def test_primality(prime_candidate):
             index -= 1
             break
             
-    quotient = (prime_candidate - 1) / exponentiate(2, index)
+    quotient = (prime_candidate - 1) // exponentiate(2, index)
     
     # 1 < a < n - 1
     # a: witness
@@ -90,38 +90,36 @@ def find_modular_multiplicative_inverse(multiplicand, modulus):
         modular_multiplicative_inverse = equation(k)
         k += 1
         
-    return modular_multiplicative_inverse
+    return int(modular_multiplicative_inverse)
     
     
 def exponentiate(base, index):
+    if base == 0:
+        return 0
     if index == 0:
         return 1
-    elif index == 1:
-        return base
-    else:
-        power = base
-        
-        while (index > 1):
+    
+    power = 1
+    
+    while (index):
+        if index & 1:
             power *= base
-            index -= 1
+            
+        base *= base
+        index >>= 1
             
     return power
     
     
 def exponentiate_modularly(base, index, modulus):
-    if index == 0:
-        return 1
-    elif index == 1:
-        return base
-        
-    residue = 1
-    
     base %= modulus
     
     if base == 0:
         return 0
+    if index == 0:
+        return 1
         
-    index = int(index)
+    residue = 1
     
     while index > 0:
         if index & 1:
