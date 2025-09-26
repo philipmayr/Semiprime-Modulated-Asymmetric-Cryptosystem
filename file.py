@@ -82,6 +82,15 @@ def test_primality(prime_candidate):
     
     
 def find_modular_multiplicative_inverse(multiplicand, modulus):
+    if find_greatest_common_divisor(multiplicand, modulus) != 1:
+        return None
+        
+    if test_primality(modulus):
+        phi_of_prime_modulus = modulus - 1
+        modular_multiplicative_inverse = exponentiate_modularly(multiplicand, phi_of_prime_modulus - 1, modulus)
+        
+        return modular_multiplicative_inverse
+    
     k = 0
     equation = lambda k : (1 + (k * modulus)) / (multiplicand)
     modular_multiplicative_inverse = equation(k)
@@ -263,19 +272,19 @@ def main():
         private_key = [private_encryption_exponent, modulus, private_encryption_exponent_modulo_phi_of_p, private_encryption_exponent_modulo_phi_of_q, p, q, modular_multiplicative_inverse_of_q_modulo_p]
         
         # message must be greater than or equal to zero and less than modulus
-        message = int(input("Enter integer message → "))
-        if message < 0 or message >= modulus:
-            raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
+        # message = int(input("Enter integer message → "))
+        # if message < 0 or message >= modulus:
+        #     raise ValueError("Message must be an integer not greater than or equal to zero and less than modulus.")
             
-        print()
+        # print()
         
-        cipher = encipher(message, public_key)
-        message = decipher(cipher, private_key)
+        # cipher = encipher(message, public_key)
+        # message = decipher(cipher, private_key)
         
-        print("Enciphered message → " + str(cipher))
-        print("Deciphered message → " + str(message))
+        # print("Enciphered message → " + str(cipher))
+        # print("Deciphered message → " + str(message))
         
-        print()
+        # print()
         
         # message = "«בראשית ברא אלהים את השמים ואת הארץ»"
         message = input("Enter text message → ")
