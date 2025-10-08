@@ -1,10 +1,9 @@
-
 '''
 This program implements an unpadded 32-bit RSA cryptosystem.
 
 '''
 
-import random, secrets
+import math, secrets
 
 
 def generate_prime(bit_length=16):
@@ -28,9 +27,18 @@ def find_greatest_common_divisor(a, b):
         
 def test_coprimality(a, b):
     return find_greatest_common_divisor(a, b) == 1
-    
+
     
 def test_primality(prime_candidate):
+    if (prime_candidate < 2):
+        return False
+        
+    if (prime_candidate in (2,3 )):
+        return True
+    
+    if (prime_candidate & 1) == 0:
+        return False
+    
     '''
     
     TODO:
@@ -46,39 +54,39 @@ def test_primality(prime_candidate):
     # n - 1 = 2ᵏ ⋅ m
     # n: prime candidate
     # k: index
-    # m: quotient
+    # m: multiplier
     
-    index = 1
+    multiplier = prime_candidate - 1
+    binary_index = 0
     
-    while True:
-        if prime_candidate - 1 % exponentiate(2, index) == 0:
-            index += 1
-        else:
-            index -= 1
-            break
+    while (multiplier & 1) == 0:
+        multiplier >>= 1
+        binary_index += 1
             
-    quotient = (prime_candidate - 1) // exponentiate(2, index)
-    
     # 1 < a < n - 1
     # a: witness
     
-    witness = random.randint(2, prime_candidate - 2)
+    upper_bound = int(2 * (math.log(prime_candidate) ** 2))
+    upper_bound = max(2, min(upper_bound, prime_candidate - 2))
     
-    # b₀ = aᵐ mod n
-    # b = residue
-    
-    residue = exponentiate_modularly(witness, quotient, prime_candidate)
-    
-    if residue == 1 or residue == -1 or residue == (residue - prime_candidate):
-        return True
-    else:
-        residue = exponentiate_modularly(residue, 2, prime_candidate)
-        if residue == 1:
+    for witness in range(2, upper_bound + 1):
+        
+        # b₀ = aᵐ mod n
+        # b = residue
+        
+        residue = exponentiate_modularly(witness, multiplier, prime_candidate)
+        
+        if residue == 1 or residue == prime_candidate - 1:
+            continue
+        
+        for _ in range(binary_index - 1):
+            residue = (residue * residue) % prime_candidate
+            if residue == prime_candidate - 1:
+                break
+        else:
             return False
-        elif residue == -1 or (residue - prime_candidate == -1):
-            return True
             
-    return False
+    return True
     
     
 def find_modular_multiplicative_inverse(multiplicand, modulus):
