@@ -5,6 +5,7 @@ This program implements an unpadded 32-bit RSA cryptosystem.
 
 import math, secrets
 
+from primes import primes
 
 def generate_prime(bit_length=16):
     while True:
@@ -16,6 +17,28 @@ def generate_prime(bit_length=16):
         
         if test_primality(random_bits):
             return random_bits
+
+
+def generate_strong_prime_pair(difference_threshold=256):
+    # generate string prime pair p, q of difference greater than 2^16
+    while True:
+        p = generate_prime()
+
+        if test_twin_primality(p):
+            continue
+        
+        q = generate_prime()
+
+        if test_twin_primality(q):
+            continue
+
+        difference = p - q
+
+        if difference < 0:
+            difference = -difference
+
+        if difference >= difference_threshold:
+            return p, q
             
             
 def find_greatest_common_divisor(a, b):
@@ -33,24 +56,16 @@ def test_primality(prime_candidate):
     if (prime_candidate < 2):
         return False
         
-    if (prime_candidate in (2,3 )):
+    if (prime_candidate in (2, 3)):
         return True
     
-    if (prime_candidate & 1) == 0:
+    if (~prime_candidate & 1):
         return False
-    
-    '''
-    
-    TODO:
-    
-    1. divide prime candidate by first few hundred pre-generated primes:
-       return false if prime candidate divides evenly
-       
-    2. test prime candidate for perfect exponentiality:
-       return false if prime candidate is a perfect power
-       
-    '''
-    
+
+    for prime in primes:
+        if (prime_candidate % prime) == 0:
+            return False
+
     # n - 1 = 2ᵏ ⋅ m
     # n: prime candidate
     # k: index
@@ -87,20 +102,29 @@ def test_primality(prime_candidate):
             return False
             
     return True
+
+
+def test_twin_primality(twin_prime_candidate, primality=True):
+    if primality:
+        return test_primality(twin_prime_candidate + 2) or test_primality(twin_prime_candidate - 2)
+    else:
+        return test_primality(twin_prime_candidate) and test_primality(twin_prime_candidate + 2) or test_primality(twin_prime_candidate - 2)
+
     
-    
-def find_modular_multiplicative_inverse(multiplicand, modulus):
-    if find_greatest_common_divisor(multiplicand, modulus) != 1:
+def find_modular_multiplicative_inverse(base, modulus):
+    if find_greatest_common_divisor(base, modulus) != 1:
         return None
+    else:
+        invertible_base = base
         
     if test_primality(modulus):
         phi_of_prime_modulus = modulus - 1
-        modular_multiplicative_inverse = exponentiate_modularly(multiplicand, phi_of_prime_modulus - 1, modulus)
+        modular_multiplicative_inverse = exponentiate_modularly(invertible_base, phi_of_prime_modulus - 1, modulus)
         
         return modular_multiplicative_inverse
     
     k = 0
-    equation = lambda k : (1 + (k * modulus)) / (multiplicand)
+    equation = lambda k : (1 + (k * modulus)) / (invertible_base)
     modular_multiplicative_inverse = equation(k)
     
     while (modular_multiplicative_inverse % 1 != 0):
@@ -239,12 +263,12 @@ def print_progress(current, total):
 
 def main():
     while (True):
-        print("Generating primes...")
+        print("Generating prime pair...")
         print()
         
-        # generate unlike prime numbers p, q
-        p = generate_prime()
-        q = generate_prime()
+        prime_pair_difference_threshold = 256
+
+        p, q = generate_strong_prime_pair(prime_pair_difference_threshold)
         
         # public modulus (n)
         modulus = p * q
