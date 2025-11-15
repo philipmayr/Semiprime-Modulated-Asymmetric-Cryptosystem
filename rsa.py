@@ -37,7 +37,7 @@ def generate_strong_prime_pair(difference_threshold=256):
         if difference < 0:
             difference = -difference
 
-        if difference >= difference_threshold:
+        if difference > difference_threshold:
             return p, q
             
             
