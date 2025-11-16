@@ -1,3 +1,4 @@
+
 '''
 This program implements an unpadded 32-bit RSA cryptosystem.
 
@@ -111,13 +112,13 @@ def test_twin_primality(twin_prime_candidate, primality=True):
         return test_primality(twin_prime_candidate) and test_primality(twin_prime_candidate + 2) or test_primality(twin_prime_candidate - 2)
 
     
-def find_modular_multiplicative_inverse(base, modulus):
+def find_modular_multiplicative_inverse(base, modulus, modular_primality=True):
     if find_greatest_common_divisor(base, modulus) != 1:
         return None
     else:
         invertible_base = base
         
-    if test_primality(modulus):
+    if modular_primalityf:
         phi_of_prime_modulus = modulus - 1
         modular_multiplicative_inverse = exponentiate_modularly(invertible_base, phi_of_prime_modulus - 1, modulus)
         
