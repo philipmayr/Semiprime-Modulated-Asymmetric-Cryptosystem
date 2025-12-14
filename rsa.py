@@ -118,7 +118,7 @@ def find_modular_multiplicative_inverse(base, modulus, modular_primality=True):
     else:
         invertible_base = base
         
-    if modular_primalityf:
+    if modular_primality:
         phi_of_prime_modulus = modulus - 1
         modular_multiplicative_inverse = exponentiate_modularly(invertible_base, phi_of_prime_modulus - 1, modulus)
         
